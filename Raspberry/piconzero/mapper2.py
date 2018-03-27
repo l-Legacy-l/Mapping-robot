@@ -26,20 +26,19 @@ onTrack = False
 
 pz.init( )
 front = 50
-while True:
-	while front > gapAvant:
-	
+while True: 
+		capteurDevant = Echo(TRIGGER_PIN1, ECHO_PIN1, speed_of_sound)
+		front = capteurDevant.read('cm',samples)
+		capteurDevant.stop()
 		if front > gapAvant:
 			print("Rien devant")
-			capteurDevant = Echo(TRIGGER_PIN1, ECHO_PIN1, speed_of_sound)
-			front = capteurDevant.read('cm',samples)
-			capteurDevant.stop()
+			
 			pz.forward(speed)
 			capteurGauche = Echo(TRIGGER_PIN2, ECHO_PIN2, speed_of_sound)
 			side = capteurGauche.read('cm',samples)
 			capteurGauche.stop()
 			print("distance gauche = ",side)
-		if side > gapGauche: 
+		elif side > gapGauche: 
 			print("Tournant a gauche detecte")
 			pz.forward(speed)
 			time.sleep(0.3)
