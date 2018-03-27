@@ -10,6 +10,7 @@ TRIGGER_PIN1 = 27
 ECHO_PIN1 = 22
 TRIGGER_PIN2 = 18
 ECHO_PIN2 = 17
+
 speed_of_sound = 315
 samples = 25
 
@@ -58,8 +59,10 @@ while True:
             pz.spinRight(speed)
 
     else :
+        # Toujours tout droit tant qu'on approche pas d'un obstacle
         if front > gapmax and side > gapmax :
             pz.forward(speed)
+        # Quand on croise un obstacle on suit une piste
         else :
             onTrack = True
 
