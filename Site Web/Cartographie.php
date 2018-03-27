@@ -6,7 +6,9 @@
     </head>
     <body>
 
+        <div id="header">
             <a href="Logout.php">Se déconnecter</a>
+            
             </br>
             <?php
 
