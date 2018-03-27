@@ -11,8 +11,16 @@ onTrack = False
 
 pz.init( )
 while True:
-    if front > gapmax && ! onTrack :
-        pz.forward(50)
-    elif ( gapmin < front < gapmax && side > gapmax ) || ( front > gapmax && side < gapmax ) :
+    # Si rien devant et collé au mur
+    if front > gapmax && gapmin < side < gapmax :
         pz.spinRight(50)
-        onTrack = True
+    # Si collé au mur et collé devant
+    elif front < gapmax && side < gapmax :
+        pz
+
+
+    else :
+        if front > gapmax && side > gapmax :
+            pz.forward(50)
+        else
+            onTrack = True
