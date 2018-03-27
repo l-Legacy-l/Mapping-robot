@@ -7,9 +7,12 @@ import time
 gapmin = 5
 gapmax = 10
 
+onTrack = False
+
 pz.init( )
 while True:
-    if front > gapmax :
+    if front > gapmax && ! onTrack :
         pz.forward(50)
-    elif gapmin < front < gapmax && side > gapmax :
+    elif ( gapmin < front < gapmax && side > gapmax ) || ( front > gapmax && side < gapmax ) :
         pz.spinRight(50)
+        onTrack = True
