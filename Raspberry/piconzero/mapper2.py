@@ -27,10 +27,10 @@ onTrack = False
 pz.init( )
 
 while True:
-	while capteurDevant > 5
+	while front > 5:
 		print("Rien devant")
 		capteurDevant = Echo(TRIGGER_PIN1, ECHO_PIN1, speed_of_sound)
-		capteurDevant = capteurDevant.read('cm',samples)
+		front = capteurDevant.read('cm',samples)
 		capteurDevant.stop()
 		pz.forward(speed)
 		
