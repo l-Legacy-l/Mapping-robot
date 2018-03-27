@@ -1,0 +1,58 @@
+body
+{
+    background-color: blueviolet;
+    font-family: "BrainFish", sans-serif;
+}
+
+@font-face
+{
+    font-family: "BrainFish";
+    src: url('Police/Brainfish_PersonalUseOnly');
+}
+
+h1
+{
+    font-size: 50px;
+    text-align: center;
+    margin-bottom: 0px;
+}
+#img {
+    text-align: center;
+    margin-bottom: 100px;
+}
+form
+{
+    width: 50%;
+    margin-left: auto;
+    margin-right: auto;
+    font-size: 30px;
+    text-align: center;
+}
+
+fieldset
+{
+    border-color: black;
+}
+#bonjour
+{
+    font-size: 30px;
+}
+
+#header
+{
+    font-size: 20px;
+}
+#button
+{
+    background-color: white;
+    border-radius: 50px;
+    font-size: 50px;
+    margin-top: 10px;
+    font-family: "BrainFish", sans-serif;
+    border-color: black;
+}
+#input_password
+{
+    margin-right: 63px;
+}
+
