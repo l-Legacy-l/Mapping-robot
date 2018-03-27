@@ -42,3 +42,17 @@ fieldset
 {
     font-size: 20px;
 }
+#button
+{
+    background-color: white;
+    border-radius: 50px;
+    font-size: 50px;
+    margin-top: 10px;
+    font-family: "BrainFish", sans-serif;
+    border-color: black;
+}
+#input_password
+{
+    margin-right: 63px;
+}
+

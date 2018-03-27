@@ -8,7 +8,7 @@
 
         <div id="header">
             <a href="Logout.php">Se déconnecter</a>
-            
+
             </br>
             <?php
 
@@ -29,7 +29,7 @@
 
                 if(!empty($donnees))
                 {
-                    echo 'Vous êtes connectés !';
+                    echo 'Vous êtes connecté !';
                 ?>
                 
                 
