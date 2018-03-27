@@ -27,15 +27,11 @@ onTrack = False
 pz.init( )
 while True:
     capteurDevant = Echo(TRIGGER_PIN1, ECHO_PIN1, speed_of_sound)
-    result = capteurDevant.read('cm',samples)
-    print("capteur devant : ",result)
-    front = result
+    front = capteurDevant.read('cm',samples)
     capteurDevant.stop()
 
     capteurGauche = Echo(TRIGGER_PIN2, ECHO_PIN2, speed_of_sound)
-    result = capteurGauche.read('cm',samples)
-    print("capteur gauche : ",result)
-    side = result
+    side = capteurGauche.read('cm',samples)
     capteurGauche.stop()
 
     time.sleep(1)
