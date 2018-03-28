@@ -12,7 +12,7 @@ TRIGGER_PIN2 = 18
 ECHO_PIN2 = 17
 
 speed_of_sound = 315
-samples = 25
+samples = 3
 
 # Espace entre le robot et le mur
 gapmin = 5
