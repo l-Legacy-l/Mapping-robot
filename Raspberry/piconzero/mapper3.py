@@ -4,6 +4,31 @@
 import piconzero as pz
 import time
 from Bluetin_Echo import Echo
+from threading import Thread
+
+i = 0
+j = 0
+
+class compteur(Thread):
+    def __init__(self):
+        Thread.__init__(self)
+        self.daemon = True
+        self.value = 0
+        self.on = False
+        self.start()
+    def run(self):
+        self.on = True
+        while(self.on):
+            j = i
+            i = pz.readInput(2)
+            if i != j :
+                self.value = self.value + 1
+                print(self.value)
+            time.sleep(0.01)
+    def stop(self):
+        self.on = False
+
+compteur()
 
 # Definition des pins
 TRIGGER_PIN1 = 27
