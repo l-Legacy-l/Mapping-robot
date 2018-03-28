@@ -59,7 +59,6 @@ while True:
 		# Si rien devant, et il est centre entre 20 et 30cm du mur
 		if (front > gapmax and front != 0) and gapmin < side < gapmax :
 			print("j'avance devant libre mur 20 30")
-			print(compteur.value)
 			pz.forward(speed)
 
 		# Si contact mur avant
@@ -79,11 +78,13 @@ while True:
 			print("je peux avancer mais je mecarte du mur, donc je me rapproche")
 
 			if side < 50:
-				pz.spinLeft(50)
-				time.sleep(0.2)
+				pz.spinLeft(60)
+				time.sleep(0.4)
 				pz.forward(75)
 				time.sleep(0.8)
-				pz.stop()
+				pz.spinRight(60)
+				time.sleep(0.4)
+				pz.forward(50)
 
 			elif 50 < side < 75:
 				print("je suis fort loin d'un mur")
@@ -96,36 +97,26 @@ while True:
 				pz.stop()
 
 		#dans un coin
-		elif front < gapmax and side < gapmax :
+		elif (front < gapmax and front != 0) and (side < gapmax and side != 0) :
 			print("je suis dans un coin, je tourne a droite")
 			pz.forward(-50)
 			time.sleep(0.5)
 			pz.spinRight(90)
 			time.sleep(0.9)
 			pz.stop()
+
+
 		# trop proche du mur
 		elif front > gapmax and side < gapmin :
 			print("je peux avancer mais je suis trop pres du mur, je mecarte")
 			pz.spinRight(50)
-			time.sleep(0.2)
+			time.sleep(0.4)
 			pz.forward(75)
 			time.sleep(0.8)
 			pz.spinLeft(50)
-			time.sleep(0.2)
-			pz.stop()
-
-		# face a une parois, peut etre oblique, donc on lui fait recuperer sa trajectoire
-		elif front < gapmax and side > gapmax : 
-			print("je suis bloque ")
-			pz.spinRight(50)
-			time.sleep(0.2)
+			time.sleep(0.25)
 			pz.forward(50)
-			time.sleep(0.4)
-			pz.spinLeft(50)
-			time.sleep(0.2)
-			pz.stop()
 
-		# face a un mur, 0 a gauche, on tourne a droite
 		elif front < gapmax and side == 0:
 			print("je suis face a un mur, 0 gauche, je tourne a droite ")
 			pz.spinRight(50)
@@ -142,23 +133,20 @@ while True:
 			pz.forward(speed)
 
 		# objet contourne, tourner a gauche 
-		elif front > gapmax and side > 50:
-			print("je viens de contourner un obstacle, je tourne a gauche")
-			pz.forward(50)
+		elif front > gapmax and side > 80:
+			print("A. je viens de contourner un obstacle, je tourne a gauche")
+			pz.forward(-50)
 			time.sleep(0.2)
 			pz.spinLeft(90)
 			time.sleep(0.9)
-			pz.forward(100)
-			time.sleep(0.7)
-			pz.stop()
-
-
+			pz.forward(speed)
+			time.sleep(1.5)
 
 	else :
 		# Toujours tout droit tant qu'on approche pas d'un obstacle
 		if front > gapmax and (side > gapmax or side == 0):
-			if front < 80: 
-				speed = 50
+			if front < 50: 
+				speed = 40
 			print("tout droit debut")
 			pz.forward(speed)
 		# Quand on croise un obstacle on suit une piste
