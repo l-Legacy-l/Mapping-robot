@@ -6,30 +6,6 @@ import time
 from Bluetin_Echo import Echo
 from threading import Thread
 
-i = 0
-j = 0
-
-class compteur(Thread):
-    def __init__(self):
-        Thread.__init__(self)
-        self.daemon = True
-        self.value = 0
-        self.on = False
-        self.start()
-    def run(self):
-        self.on = True
-        while(self.on):
-            j = i
-            i = pz.readInput(2)
-            if i != j :
-                self.value = self.value + 1
-                print(self.value)
-            time.sleep(0.01)
-    def stop(self):
-        self.on = False
-
-compteur()
-
 # Definition des pins
 TRIGGER_PIN1 = 27
 ECHO_PIN1 = 22
@@ -83,7 +59,7 @@ while True:
 		# Si rien devant, et il est centre entre 20 et 30cm du mur
 		if (front > gapmax and front != 0) and gapmin < side < gapmax :
 			print("j'avance devant libre mur 20 30")
-
+			print(compteur.value)
 			pz.forward(speed)
 
 		# Si contact mur avant
@@ -102,17 +78,24 @@ while True:
 			pz.stop()
 			print("je peux avancer mais je mecarte du mur, donc je me rapproche")
 
-			if side < 50
-			pz.spinLeft(50)
-			time.sleep(0.2)
-			pz.forward(75)
-			time.sleep(0.8)
-			pz.stop()
+			if side < 50:
+				pz.spinLeft(50)
+				time.sleep(0.2)
+				pz.forward(75)
+				time.sleep(0.8)
+				pz.stop()
 
-			elif 50 < side < 75
+			elif 50 < side < 75:
+				print("je suis fort loin d'un mur")
+				pz.spinLeft(90)
+				time.sleep(0.9)
+				pz.forward(90)
+				time.sleep(0.5)
+				pz.spinRight(90)
+				time.sleep(0.9)
+				pz.stop()
 
 		#dans un coin
-
 		elif front < gapmax and side < gapmax :
 			print("je suis dans un coin, je tourne a droite")
 			pz.forward(-50)
