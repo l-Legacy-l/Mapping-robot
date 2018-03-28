@@ -22,10 +22,11 @@ class compteur(Thread):
             i = pz.readInput(2)
             if i != j :
                 self.value = self.value + 1
-                print(self.value)
             time.sleep(0.01)
     def stop(self):
         self.on = False
+    def reinit(self):
+        self.value = 0
 
 compteur()
 
