@@ -6,9 +6,10 @@ import math
 
 ratio = 90/40
 
-dwg = svgwrite.Drawing('test.svg', profile='tiny')
+dwg = svgwrite.Drawing('test.svg')
 angle = 0
-line = 0
+A = 0
+ligne = 0
 xorg = 0
 yorg = 0
 
@@ -16,23 +17,27 @@ with open("exemple", "r") as f :
     for line in f :
         if re.match("^A", line) is not None :
             angle = re.findall("([0-9]+)", line)
-            angle = angle * ratio
+            angle = int(angle[0]) * ratio
             print("Angle : ", angle)
-        elif re.match("^L", line) is not None :
-            line = re.findall("([0-9]+)", line)
-            line = line * ratio
-            print("Line : ", line)
-        else :
-            print("Le fichier n'est pas correcte")
-            exit()
+            A += angle
 
-        if(angle != 0 and line != 0) :
-            x = sin(angle) * line #socathoa
-            y = cos(angle) * line #socathoa
-            dwg.add(dwg.line((0, 0), (10, 0), stroke=svgwrite.rgb(10, 10, 16, '%')))
+        elif re.match("^L", line) is not None :
+            ligne = re.findall("([0-9]+)", line)
+            ligne = int(ligne[0])
+            print("Line : ", ligne)
+
+            x = xorg + math.sin(A * math.pi/180) * int(ligne) #socathoa
+            y = yorg + math.cos(A * math.pi/180) * int(ligne) #socathoa
+            print("x: ",x)
+            print("y: ",y)
+            dwg.add(dwg.line((math.fabs(xorg), math.fabs(yorg)), (math.fabs(x), math.fabs(y)), stroke=svgwrite.rgb(10, 10, 16, '%')))
 
             xorg = x
             yorg = y
 
-dwg.save()
+        else :
+            print("Le fichier n'est pas correcte")
+            exit()
 
+dwg.save()
+print("finished")
