@@ -6,8 +6,8 @@ import math
 
 # Ratio utilisé pour les angles (pas/degres)
 ratioAngle = 90/40
-# Ratio utilisé pour les lignes (pas/metres)
-ratioLigne = 2000/10
+# Ratio utilisé pour les lignes (metres/pas)
+ratioLigne = 10/2000 * 100
 
 # Creation d'un fichier svg
 dwg = svgwrite.Drawing('test.svg')
@@ -19,7 +19,7 @@ xorg = 0
 yorg = 0
 
 # Ouverture d'un fichier d'input
-with open("exemple", "r") as f :
+with open("output", "r") as f :
     # Pour chaque ligne
     for line in f :
         # Si la ligne contient un angle
@@ -38,10 +38,12 @@ with open("exemple", "r") as f :
             ligne = re.findall("([0-9]+)", line)
             # Transformer la ligne en metres
             ligne = int(ligne[0]) * ratioLigne
+            print(ligne)
 
             # Calcul de la nouvelle position en utilisant socathoa
-            x = xorg + math.sin(A * math.pi/180) * int(ligne)
-            y = yorg + math.cos(A * math.pi/180) * int(ligne)
+            x = xorg + math.sin(angle * math.pi/180) * ligne
+            y = yorg + math.cos(angle * math.pi/180) * ligne
+            print("x: " + str(x) + " y: " + str(y))
 
             # Ajout de la ligne allant de la dernière postion vers la nouvelle position au svg
             dwg.add(dwg.line((math.fabs(xorg), math.fabs(yorg)), (math.fabs(x), math.fabs(y)), stroke=svgwrite.rgb(10, 10, 16, '%')))

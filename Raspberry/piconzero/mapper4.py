@@ -6,6 +6,58 @@ import time
 from Bluetin_Echo import Echo
 from threading import Thread
 
+class compteur(Thread):  
+    def __init__(self):  
+        Thread.__init__(self)  
+        self.daemon = True  
+        self.value = 0  
+        self.on = False  
+        self.start()  
+    def run(self):  
+        self.on = True  
+        i = 0  
+        j = 0  
+        while(self.on):  
+            j = i  
+            i = pz.readInput(2)  
+            if i != j :  
+                self.value = self.value + 1  
+                print(self.value)  
+            time.sleep(0.01)  
+    def stop(self):  
+        self.on = False  
+    def zero(self): 
+        self.value = 0 
+    def get(self): 
+        return self.value 
+  
+c = compteur()  
+
+f = open("output", "w")
+
+prev = 0 # 0 pour tout droit, 1 pour rotation à droite et 2 pour rotation à gauche
+# code à ajouter avant chaque rotation à gauche
+def gauche():
+    if(prev == 0):
+        f.write("L " + c.get() + "\n")
+    elif(prev == 1)
+        f.write("D " + c.get() + "\n")
+    prev = 2
+# code à ajouter avant chaque rotation à droite
+def droite():
+    if(prev == 0):
+        f.write("L " + c.get() + "\n")
+    elif(prev == 2)
+        f.write("G " + c.get() + "\n")
+    prev = 1
+# code à ajouter avant chaque mise en route (sans compter les ajustement)
+def toutDroit():
+    if(prev == 1):
+        f.write("D " + c.get() + "\n")
+    elif(prev == 2)
+        f.write("G " + c.get() + "\n")
+    prev = 1
+
 # Definition des pins
 TRIGGER_PIN1 = 27
 ECHO_PIN1 = 22
