@@ -24,7 +24,7 @@ speed = 100
 
 # Le robot ne suis pas encore un mur au depart
 onTrack = False
-
+#time.sleep(30)
 pz.init( )
 while True:
 
@@ -40,9 +40,9 @@ while True:
 
 	#correction erreur distance > a 4metres
 	while front > 400 or side > 400:
-		print("jai fait une boulette chef")
+		print("Erreur du capteur, nouvelle prise de donnees")
 		pz.stop()
-		samples = 2
+		samples = 3
 		capteurDevant = Echo(TRIGGER_PIN1, ECHO_PIN1, speed_of_sound)
 		front = capteurDevant.read('cm',samples)
 		capteurDevant.stop()
@@ -56,103 +56,111 @@ while True:
 	#boucle une fois avoir rejoint une paroi
 	if onTrack :
 
-		# Si rien devant, et il est centre entre 20 et 30cm du mur
-		if (front > gapmax and front != 0) and gapmin < side < gapmax :
-			print("j'avance devant libre mur 20 30")
-			pz.forward(speed)
+		#detection paroi en face 
+		if front < 50 and front != 0 :
+			pz.forward(40)
+			while front < gapmax :
+				print(front,"Je detecte une paroi en face")
+				while gapmax > front > 10 : 
+					print("je peux me rapprocher distance = ",front)
+					pz.forward(60)
+					time.sleep(0.2)
+					pz.stop()
+					capteurDevant = Echo(TRIGGER_PIN1, ECHO_PIN1, speed_of_sound)
+					front = capteurDevant.read('cm',samples)
+					capteurDevant.stop()
+				if front < 10 : 
+					pz.stop()
+					pz.forward(-50)
+					time.sleep(0.5)
+					pz.spinRight(90)
+					time.sleep(1)
+					pz.forward(50)
+				capteurDevant = Echo(TRIGGER_PIN1, ECHO_PIN1, speed_of_sound)
+				front = capteurDevant.read('cm',samples)
+				capteurDevant.stop()	
 
-		# Si contact mur avant
-		elif front < gapmax/2 and front != 0 :
-
-
-			print("Je suis face a une paroi")
+		#detection coin tournant a auche
+		elif front > gapmax and side > 40:
+			print("je detecte un tournant a gauche, je tourne a gauche")
 			pz.forward(-50)
 			time.sleep(0.5)
-			pz.spinRight(90)
-			time.sleep(0.9)
-			pz.stop()
-
-		# s'ecarte du mur, mais pas trop 
-		elif front > gapmax and 50 > side > gapmax*0.8 :
-			pz.stop()
-			print("je peux avancer mais je mecarte du mur, donc je me rapproche")
-
-			if side < 50:
-				pz.spinLeft(60)
-				time.sleep(0.4)
-				pz.forward(75)
-				time.sleep(0.8)
-				pz.spinRight(60)
-				time.sleep(0.4)
-				pz.forward(50)
-
-			elif 50 < side < 75:
-				print("je suis fort loin d'un mur")
-				pz.spinLeft(90)
-				time.sleep(0.9)
-				pz.forward(90)
-				time.sleep(0.5)
-				pz.spinRight(90)
-				time.sleep(0.9)
-				pz.stop()
-
-		#dans un coin
-		elif (front < gapmax and front != 0) and (side < gapmax and side != 0) :
-			print("je suis dans un coin, je tourne a droite")
-			pz.forward(-50)
-			time.sleep(0.5)
-			pz.spinRight(90)
-			time.sleep(0.9)
-			pz.stop()
-
-
-		# trop proche du mur
-		elif front > gapmax and side < gapmin :
-			print("je peux avancer mais je suis trop pres du mur, je mecarte")
-			pz.spinRight(50)
-			time.sleep(0.4)
-			pz.forward(75)
-			time.sleep(0.8)
-			pz.spinLeft(50)
-			time.sleep(0.25)
-			pz.forward(50)
-
-		elif front < gapmax and side == 0:
-			print("je suis face a un mur, 0 gauche, je tourne a droite ")
-			pz.spinRight(50)
-			time.sleep(0.2)
-			pz.forward(50)
-			time.sleep(0.4)
-			pz.spinLeft(50)
-			time.sleep(0.2)
-			pz.stop()
-
-		# grande distance devant, en cas de contour d'objet
-
-		elif front == 0:
-			pz.forward(speed)
-
-		# objet contourne, tourner a gauche 
-		elif front > gapmax and side > 80:
-			print("A. je viens de contourner un obstacle, je tourne a gauche")
-			pz.forward(-50)
-			time.sleep(0.2)
 			pz.spinLeft(90)
-			time.sleep(0.9)
+			time.sleep(1.1)
+			pz.forward(80)
+			time.sleep(1)
+
+		#ici a developper fonction pour mettre robot // au mur a distance 20cm
+		elif front > 75 and (side < gapmax and side != 0):
+			print("Je longe un mur")
+			deport = [] #creation tableau et stock des donnes laterales
+			while front > 75 and (side < gapmax+15 and side != 0):
+				sample = 4
+				capteurDevant = Echo(TRIGGER_PIN1, ECHO_PIN1, speed_of_sound) #get donnee
+				front = capteurDevant.read('cm',samples)
+				capteurDevant.stop()
+				capteurGauche = Echo(TRIGGER_PIN2, ECHO_PIN2, speed_of_sound)
+				side = capteurGauche.read('cm',samples)
+				capteurGauche.stop()
+				print("fction devant = ",front," gauche = ",side)
+				if side != 0 : deport.append(side)
+				compar = len(deport)
+				print("longueur du tableau",compar)
+				if side < 10 :
+					print("Je suis trop proche",side)
+					pz.spinRight(65)
+					time.sleep((20-side)/10)
+					pz.forward(60)
+					time.sleep(0.2)
+					pz.spinLeft(65)
+					time.sleep((20-side)/10)
+					pz.forward(50)
+				elif side > 20 :
+					print("je suis trop loin",side)
+					pz.spinLeft(65)
+					time.sleep((side-20)/10)
+					pz.forward(60)
+					time.sleep(0.4)
+					pz.spinRight(50)
+					time.sleep((side-20)/10)
+					pz.forward(50)
+				if compar >= 2: #si deux donnes, comparaison 
+					print("deport-1 = ",deport[-1], "deport -2 =", deport[-2])
+					if deport[-1] > deport[-2]: #ici on a deport vers l'exterieur
+						print("deport exterieur")
+						deportInterieur = False #on determine dans quelle direction le robot devie
+					else : 
+						deportInterieur = True
+						print("deport interieur")
+					if deportInterieur == True : #calcul coef et deplacement
+						coef = (deport[-2]-deport[-1])/10
+						print("coef = ",coef)
+						pz.spinRight(50)
+						time.sleep(coef)
+						pz.forward(50)
+					elif deportInterieur == False :
+						coef = (deport[-1]-deport[-2])/10
+						print("coef = ",coef)
+						pz.spinLeft(50)
+						time.sleep(coef)
+						pz.forward(50)
+		
+		else :
 			pz.forward(speed)
-			time.sleep(1.5)
 
 	else :
+		print("Debut de la sequence")
+
 		# Toujours tout droit tant qu'on approche pas d'un obstacle
 		if front > gapmax and (side > gapmax or side == 0):
 			if front < 50: 
 				speed = 40
-			print("tout droit debut")
+				print("Mur a proximite, reduction de la vitesse")
 			pz.forward(speed)
 		# Quand on croise un obstacle on suit une piste
 		else :
 			pz.stop()
-			"obstacle debut detecte"
+			"Premier mur detecte, debut de la sequence detection"
 			onTrack = True
 
 	time.sleep(0.1)
