@@ -4,35 +4,7 @@
 import piconzero as pz
 import time
 from Bluetin_Echo import Echo
-from threading import Thread 
- 
- 
-class compteur(Thread): 
-    def __init__(self): 
-        Thread.__init__(self) 
-        self.daemon = True 
-        self.value = 0 
-        self.on = False 
-        self.start() 
-    def run(self): 
-        self.on = True 
-        i = 0 
-        j = 0 
-        while(self.on): 
-            j = i 
-            i = pz.readInput(2) 
-            if i != j : 
-                self.value = self.value + 1 
-                print(self.value) 
-            time.sleep(0.01) 
-    def stop(self): 
-        self.on = False 
-    def zero(self):
-        self.value = 0
-    def get(self):
-        return self.value
- 
-c = compteur() 
+from threading import Thread
 
 # Definition des pins
 TRIGGER_PIN1 = 27
@@ -45,16 +17,14 @@ samples = 1
 
 # Espace entre le robot et le mur
 gapmin = 20
-gapmax = 25
+gapmax = 30
 
 # Vitesse du robot
 speed = 100
 
 # Le robot ne suis pas encore un mur au depart
 onTrack = False
-
-file = open("testfile.txt","w") 
-
+#time.sleep(30)
 pz.init( )
 while True:
 
@@ -87,37 +57,41 @@ while True:
 	if onTrack :
 
 		#detection paroi en face 
-		if front < gapmax and front != 0 :
-                        file.write("L " + str(c.get()))
-                        c.zero
-
-			print("Je detecte une paroi en face, je tourne a droite")
-			pz.forward(-50)
-			time.sleep(0.5)
-			pz.spinRight(90)
-			time.sleep(1)
-			pz.forward(speed)
-
-                        file.write("A " + str(c.get()))
-                        c.zero
+		if front < 50 and front != 0 :
+			pz.forward(40)
+			while front < gapmax :
+				print(front,"Je detecte une paroi en face")
+				while gapmax > front > 10 : 
+					print("je peux me rapprocher distance = ",front)
+					pz.forward(60)
+					time.sleep(0.2)
+					pz.stop()
+					capteurDevant = Echo(TRIGGER_PIN1, ECHO_PIN1, speed_of_sound)
+					front = capteurDevant.read('cm',samples)
+					capteurDevant.stop()
+				if front < 10 : 
+					pz.stop()
+					pz.forward(-50)
+					time.sleep(0.5)
+					pz.spinRight(90)
+					time.sleep(1)
+					pz.forward(50)
+				capteurDevant = Echo(TRIGGER_PIN1, ECHO_PIN1, speed_of_sound)
+				front = capteurDevant.read('cm',samples)
+				capteurDevant.stop()	
 
 		#detection coin tournant a auche
-		elif front > gapmax and side > 50:
-                        file.write("L " + str(c.get()))
-                        c.zero
-
+		elif front > gapmax and side > 40:
 			print("je detecte un tournant a gauche, je tourne a gauche")
 			pz.forward(-50)
 			time.sleep(0.5)
 			pz.spinLeft(90)
+			time.sleep(1.1)
+			pz.forward(80)
 			time.sleep(1)
-			pz.forward(speed)
-
-                        file.write("A " + str(c.get()))
-                        c.zero
 
 		#ici a developper fonction pour mettre robot // au mur a distance 20cm
-		elif front > 75 and side < gapmax:
+		elif front > 75 and (side < gapmax and side != 0):
 			print("Je longe un mur")
 			deport = [] #creation tableau et stock des donnes laterales
 			while front > 75 and (side < gapmax+15 and side != 0):
@@ -132,6 +106,24 @@ while True:
 				if side != 0 : deport.append(side)
 				compar = len(deport)
 				print("longueur du tableau",compar)
+				if side < 10 :
+					print("Je suis trop proche",side)
+					pz.spinRight(65)
+					time.sleep((20-side)/10)
+					pz.forward(60)
+					time.sleep(0.2)
+					pz.spinLeft(65)
+					time.sleep((20-side)/10)
+					pz.forward(50)
+				elif side > 20 :
+					print("je suis trop loin",side)
+					pz.spinLeft(65)
+					time.sleep((side-20)/10)
+					pz.forward(60)
+					time.sleep(0.4)
+					pz.spinRight(50)
+					time.sleep((side-20)/10)
+					pz.forward(50)
 				if compar >= 2: #si deux donnes, comparaison 
 					print("deport-1 = ",deport[-1], "deport -2 =", deport[-2])
 					if deport[-1] > deport[-2]: #ici on a deport vers l'exterieur
@@ -158,6 +150,7 @@ while True:
 
 	else :
 		print("Debut de la sequence")
+
 		# Toujours tout droit tant qu'on approche pas d'un obstacle
 		if front > gapmax and (side > gapmax or side == 0):
 			if front < 50: 
