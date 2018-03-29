@@ -4,7 +4,35 @@
 import piconzero as pz
 import time
 from Bluetin_Echo import Echo
-from threading import Thread
+from threading import Thread 
+ 
+ 
+class compteur(Thread): 
+    def __init__(self): 
+        Thread.__init__(self) 
+        self.daemon = True 
+        self.value = 0 
+        self.on = False 
+        self.start() 
+    def run(self): 
+        self.on = True 
+        i = 0 
+        j = 0 
+        while(self.on): 
+            j = i 
+            i = pz.readInput(2) 
+            if i != j : 
+                self.value = self.value + 1 
+                print(self.value) 
+            time.sleep(0.01) 
+    def stop(self): 
+        self.on = False 
+    def zero(self):
+        self.value = 0
+    def get(self):
+        return self.value
+ 
+c = compteur() 
 
 # Definition des pins
 TRIGGER_PIN1 = 27
@@ -24,6 +52,8 @@ speed = 100
 
 # Le robot ne suis pas encore un mur au depart
 onTrack = False
+
+file = open("testfile.txt","w") 
 
 pz.init( )
 while True:
@@ -58,6 +88,9 @@ while True:
 
 		#detection paroi en face 
 		if front < gapmax and front != 0 :
+                        file.write("L " + str(c.get()))
+                        c.zero
+
 			print("Je detecte une paroi en face, je tourne a droite")
 			pz.forward(-50)
 			time.sleep(0.5)
@@ -65,14 +98,23 @@ while True:
 			time.sleep(1)
 			pz.forward(speed)
 
+                        file.write("A " + str(c.get()))
+                        c.zero
+
 		#detection coin tournant a auche
 		elif front > gapmax and side > 50:
+                        file.write("L " + str(c.get()))
+                        c.zero
+
 			print("je detecte un tournant a gauche, je tourne a gauche")
 			pz.forward(-50)
 			time.sleep(0.5)
 			pz.spinLeft(90)
 			time.sleep(1)
 			pz.forward(speed)
+
+                        file.write("A " + str(c.get()))
+                        c.zero
 
 		#ici a developper fonction pour mettre robot // au mur a distance 20cm
 		elif front > 75 and side < gapmax:
