@@ -23,7 +23,7 @@ with open("output", "r") as f :
     # Pour chaque ligne
     for line in f :
         # Si la ligne contient un angle
-        if re.match("^A", line) is not None :
+        if re.match("^D", line) is not None :
             # Trouver la valeur de l'angle en pas
             a = re.findall("([0-9]+)", line)
             # Transformer l'angle en degres
@@ -31,6 +31,14 @@ with open("output", "r") as f :
 
             # Ajoute l'angle à l'angle total
             angle += a
+        elif re.match("^G", line) is not None :
+            # Trouver la valeur de l'angle en pas
+            a = re.findall("([0-9]+)", line)
+            # Transformer l'angle en degres
+            a = int(a[0]) * ratioAngle
+
+            # Ajoute l'angle à l'angle total
+            angle -= a
 
         # Si la ligne contient une distance
         elif re.match("^L", line) is not None :
