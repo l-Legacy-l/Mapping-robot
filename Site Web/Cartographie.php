@@ -21,7 +21,7 @@
             try
             {
             
-                $bdd = new PDO('mysql:host=localhost;dbname=raspberrypi;charset=utf8', 'root', '');
+                $bdd = new PDO('mysql:host=localhost;dbname=raspberrypi;charset=utf8', 'root', 'rasp789456');
 
                 $req= $bdd ->prepare('SELECT login,password FROM users WHERE login = :login && password = :password');
                 $req->execute(array('login' => $_SESSION['login'], 'password' => $mdp));
@@ -29,7 +29,8 @@
 
                 if(!empty($donnees))
                 {
-                    echo 'Vous êtes connecté !';
+			echo 'Vous êtes connecté !';
+			$_SESSION['password'] = $mdp;
                 ?>
                 
                 
@@ -39,7 +40,7 @@
                 else
                 {
                     session_destroy();
-                    echo "<script type='text/javascript'>document.location.replace('Connexion.php');</script>";                 
+                    echo "<script type='text/javascript'>document.location.replace('index.php');</script>";                 
                 }
             }
 
@@ -54,6 +55,7 @@
         <h1>Connexion au Raspberry Pi</h1>
         <div id="img">
             <img src="Images/logo.gif" >
-        </div>
+	</div>
+	<a href="script.php">Cliquer pour lancer le script</a>
     </body>
 </html>
