@@ -116,11 +116,13 @@ try:
 
 			#detection paroi en face 
 			if front < 50 and front != 0 :
+				toutDroit()
 				pz.forward(40)
 				while front < gapmax and front != 0:
 					print(front,"Je detecte une paroi en face")
 					while gapmax > front > 10 : 
 						print("je peux me rapprocher distance = ",front)
+						toutDroit()
 						pz.forward(60)
 						time.sleep(0.2)
 						pz.stop()
@@ -131,8 +133,10 @@ try:
 						pz.stop()
 						pz.forward(-50)
 						time.sleep(0.5)
+						droite()
 						pz.spinRight(95)
 						time.sleep(1)
+						toutDroit()
 						pz.forward(50)
 					capteurDevant = Echo(TRIGGER_PIN1, ECHO_PIN1, speed_of_sound)
 					front = capteurDevant.read('cm',samples)
@@ -140,16 +144,20 @@ try:
 
 
 			elif front == 0 and side == 0 :
+				gauche()
 				pz.spinLeft(90)
 				time.sleep(1)
+				toutDroit()
 				pz.forward(60)
 			#detection coin tournant a auche
 			elif front > gapmax and ( side > 50 or side == 0 and side <401):
 				print("je detecte un tournant a gauche, je tourne a gauche")
 				pz.forward(-65)
 				time.sleep(0.2)
+				gauche()
 				pz.spinLeft(90)
 				time.sleep(1.1)
+				toutDroit()
 				pz.forward(75)
 				time.sleep(1)
 
