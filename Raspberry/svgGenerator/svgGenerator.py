@@ -1,81 +1,70 @@
-#!/bin/python
+#!/usr/bin/python
 
 import re
 import svgwrite
 import math
+import os
+import sys
 
-# Ratio utilisé pour les angles (pas/degres)
 ratioAngle = 90/50
-# Ratio utilisé pour les lignes (metres/pas)
-ratioLigne = 10/2000 * 1000
+ratioLigne = 2/132 * 10
 
-# Creation d'un fichier svg
-dwg = svgwrite.Drawing('test.svg')
+if not os.path.exists(sys.argv[1]):
+    os.makedirs(sys.argv[1])
 
-# Initialisation des variables
+path = sys.argv[1] + "/" + sys.argv[2]
+dwg = svgwrite.Drawing(path + '.svg', profile='tiny')
+
 angle = 0
 ligne = 0
-xorg = 0
-yorg = 0
+xorg = 200
+yorg = 20
 perim = 0
+a = False
 
-# Ouverture d'un fichier d'input
 with open("output", "r") as f :
-    # Pour chaque ligne
     for line in f :
-        # Si la ligne contient un angle
         if re.match("^D", line) is not None :
-            # Trouver la valeur de l'angle en pas
-            # a = re.findall("([0-9]+)", line)
-            # # Transformer l'angle en degres
-            # a = int(a[0]) * ratioAngle
+            a = re.findall("([0-9]+)", line)
+            a = int(a[0]) * ratioAngle
 
-            # Toujours un angle droit
-            a = 90
+            if(a>30):
+                a = 90
+                angle += a
 
-            # Ajoute l'angle à l'angle total
-            angle += a
         elif re.match("^G", line) is not None :
-            # Trouver la valeur de l'angle en pas
-            # a = re.findall("([0-9]+)", line)
-            # # Transformer l'angle en degres
-            # a = int(a[0]) * ratioAngle
+            a = re.findall("([0-9]+)", line)
+            a = int(a[0]) * ratioAngle
 
-            # Toujours un angle droit
-            a = 90
+            if(a>30):
+                a = 90
+                angle -= a
 
-            # Ajoute l'angle à l'angle total
-            angle -= a
 
-        # Si la ligne contient une distance
         elif re.match("^L", line) is not None :
-            # Trouver la valeur de la distance en pas
-            ligne = re.findall("([0-9]+)", line)
-            # Transformer la ligne en metres
-            ligne = int(ligne[0]) * ratioLigne
-            print(ligne)
-            perim += ligne
+            if(a == False):
+                a = True
+            else:
+                ligne = re.findall("([0-9]+)", line)
+                perim += int(ligne[0])
+                ligne = int(ligne[0]) * ratioLigne
+                print(ligne)
 
-            # Calcul de la nouvelle position en utilisant socathoa
-            x = xorg + math.sin(angle * math.pi/180) * ligne
-            y = yorg + math.cos(angle * math.pi/180) * ligne
-            print("x: " + str(x) + " y: " + str(y))
+                x = xorg + math.sin(angle * math.pi/180) * ligne
+                y = yorg + math.cos(angle * math.pi/180) * ligne
+                print("x: " + str(x) + " y: " + str(y))
 
-            # Ajout de la ligne allant de la dernière postion vers la nouvelle position au svg
-            dwg.add(dwg.line((math.fabs(xorg), math.fabs(yorg)), (math.fabs(x), math.fabs(y)), stroke=svgwrite.rgb(10, 10, 16, '%')))
+                dwg.add(dwg.line((math.fabs(xorg), math.fabs(yorg)), (math.fabs(x), math.fabs(y)), stroke=svgwrite.rgb(10, 10, 16, '%')))
 
-            # Enregistrement des anciennes valeurs
-            xorg = x
-            yorg = y
+                xorg = x
+                yorg = y
 
         else :
-            # Si la ligne ne contient ni un angle ni une ligne on affiche une erreur
             print("Le fichier n'est pas correcte")
             exit()
     dwg.add(dwg.text(str(perim) + " pas", insert=(10, 20)))
-    dwg.add(dwg.text(str(perim * ratioLigne) + " metres", insert=(10, 40)))
+    dwg.add(dwg.text(str(perim * ratioLigne/10) + " metres", insert=(10, 40)))
 
 
 
-# Sauvegarde du fichier svg
 dwg.save()
