@@ -79,38 +79,49 @@ print
 
 pz.init()
 
-prev = 0
+prev = 0 # 0 pour tout droit, 1 pour rotation à droite et 2 pour rotation à gauche
+# code à ajouter avant chaque rotation à gauche
+def gauche():
+    if(prev == 0):
+        f.write("L " + c.get() + "\n")
+    elif(prev == 1)
+        f.write("D " + c.get() + "\n")
+    prev = 2
+# code à ajouter avant chaque rotation à droite
+def droite():
+    if(prev == 0):
+        f.write("L " + c.get() + "\n")
+    elif(prev == 2)
+        f.write("G " + c.get() + "\n")
+    prev = 1
+# code à ajouter avant chaque mise en route (sans compter les ajustement)
+def toutDroit():
+    if(prev == 1):
+        f.write("D " + c.get() + "\n")
+    elif(prev == 2)
+        f.write("G " + c.get() + "\n")
+    prev = 1
 # main loop
 try:
     while True:
         keyp = readkey()
         if keyp == 'w' or ord(keyp) == 16:
-            prev = 0
+            toutDroit()
             pz.forward(speed)
             print 'Forward', speed
         elif keyp == 'z' or ord(keyp) == 17:
-            if(prev == 0):
-                f.write("L " + c.get() + "\n")
-            else
-                f.write("A " + c.get() + "\n")
             c.zero()
             pz.reverse(speed)
             prev = 1
             print 'Reverse', speed
         elif keyp == 's' or ord(keyp) == 18:
-            if(prev == 0):
-                f.write("L " + c.get() + "\n")
-            else
-                f.write("A " + c.get() + "\n")
+            droite()
             c.zero()
             pz.spinRight(speed)
             prev = 1
             print 'Spin Right', speed
         elif keyp == 'a' or ord(keyp) == 19:
-            if(prev == 0):
-                f.write("L " + c.get() + "\n")
-            else
-                f.write("A " + c.get() + "\n")
+            gauche()
             c.zero()
             pz.spinLeft(speed)
             prev = 1
@@ -122,10 +133,6 @@ try:
             speed = max (0, speed-10)
             print 'Speed-', speed
         elif keyp == ' ':
-            if(prev == 0):
-                f.write("L " + c.get() + "\n")
-            else
-                f.write("A " + c.get() + "\n")
             c.zero()
             pz.stop()
             print 'Stop'
