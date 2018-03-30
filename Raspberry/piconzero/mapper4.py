@@ -43,7 +43,7 @@ def gauche():
     elif(prev == 1):
         f.write("D " + c.get() + "\n")
     prev = 2
-    print(prev)
+    c.zero()
 # code a ajouter avant chaque rotation a droite
 def droite():
     global prev
@@ -52,7 +52,7 @@ def droite():
     elif(prev == 2):
         f.write("G " + c.get() + "\n")
     prev = 1
-    print(prev)
+    c.zero()
 # code a ajouter avant chaque mise en route (sans compter les ajustement)
 def toutDroit():
     global prev
@@ -61,7 +61,7 @@ def toutDroit():
     elif(prev == 2):
         f.write("G " + c.get() + "\n")
     prev = 0
-    print(prev)
+    c.zero()
 # Definition des pins
 TRIGGER_PIN1 = 27
 ECHO_PIN1 = 22
