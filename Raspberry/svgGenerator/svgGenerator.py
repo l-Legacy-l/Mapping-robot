@@ -5,9 +5,9 @@ import svgwrite
 import math
 
 # Ratio utilisé pour les angles (pas/degres)
-ratioAngle = 90/40
+ratioAngle = 90/50
 # Ratio utilisé pour les lignes (metres/pas)
-ratioLigne = 10/2000 * 100
+ratioLigne = 10/2000 * 1000
 
 # Creation d'un fichier svg
 dwg = svgwrite.Drawing('test.svg')
@@ -17,6 +17,7 @@ angle = 0
 ligne = 0
 xorg = 0
 yorg = 0
+perim = 0
 
 # Ouverture d'un fichier d'input
 with open("output", "r") as f :
@@ -47,6 +48,7 @@ with open("output", "r") as f :
             # Transformer la ligne en metres
             ligne = int(ligne[0]) * ratioLigne
             print(ligne)
+            perim += ligne
 
             # Calcul de la nouvelle position en utilisant socathoa
             x = xorg + math.sin(angle * math.pi/180) * ligne
@@ -64,6 +66,10 @@ with open("output", "r") as f :
             # Si la ligne ne contient ni un angle ni une ligne on affiche une erreur
             print("Le fichier n'est pas correcte")
             exit()
+    dwg.add(dwg.text(str(perim) + " pas", insert=(10, 20)))
+    dwg.add(dwg.text(str(perim * ratioLigne) + " metres", insert=(10, 40)))
+
+
 
 # Sauvegarde du fichier svg
 dwg.save()
