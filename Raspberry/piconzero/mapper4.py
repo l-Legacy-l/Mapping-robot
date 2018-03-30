@@ -19,7 +19,7 @@ class compteur(Thread):
         j = 0  
         while(self.on):  
             j = i  
-            i = pz.readInput(2)  
+            i = (pz.readInput(2) + pz.readInput(3))/2
             if i != j :  
                 self.value = self.value + 1  
             time.sleep(0.01)  
