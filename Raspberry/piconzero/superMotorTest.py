@@ -79,26 +79,26 @@ print
 
 pz.init()
 
-prev = 0 # 0 pour tout droit, 1 pour rotation à droite et 2 pour rotation à gauche
-# code à ajouter avant chaque rotation à gauche
+prev = 0 # 0 pour tout droit, 1 pour rotation a droite et 2 pour rotation a gauche
+# code a ajouter avant chaque rotation a gauche
 def gauche():
     if(prev == 0):
         f.write("L " + c.get() + "\n")
-    elif(prev == 1)
+    elif(prev == 1):
         f.write("D " + c.get() + "\n")
     prev = 2
-# code à ajouter avant chaque rotation à droite
+# code a ajouter avant chaque rotation a droite
 def droite():
     if(prev == 0):
         f.write("L " + c.get() + "\n")
-    elif(prev == 2)
+    elif(prev == 2):
         f.write("G " + c.get() + "\n")
     prev = 1
-# code à ajouter avant chaque mise en route (sans compter les ajustement)
+# code a ajouter avant chaque mise en route (sans compter les ajustement)
 def toutDroit():
     if(prev == 1):
         f.write("D " + c.get() + "\n")
-    elif(prev == 2)
+    elif(prev == 2):
         f.write("G " + c.get() + "\n")
     prev = 1
 # main loop
