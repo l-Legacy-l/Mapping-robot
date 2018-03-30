@@ -13,10 +13,10 @@ ratioLigne = 10/2000 * 1000
 dwg = svgwrite.Drawing('test.svg')
 
 # Initialisation des variables
-angle = 0
+angle = 90
 ligne = 0
-xorg = 0
-yorg = 0
+xorg = 200
+yorg = 200
 perim = 0
 
 # Ouverture d'un fichier d'input
@@ -45,7 +45,7 @@ with open("output", "r") as f :
             a = 90
 
             # Ajoute l'angle à l'angle total
-            angle -= a
+            angle += -a
 
         # Si la ligne contient une distance
         elif re.match("^L", line) is not None :
@@ -57,9 +57,8 @@ with open("output", "r") as f :
             perim += ligne
 
             # Calcul de la nouvelle position en utilisant socathoa
-            x = xorg + math.sin(angle * math.pi/180) * ligne
-            y = yorg + math.cos(angle * math.pi/180) * ligne
-            print("x: " + str(x) + " y: " + str(y))
+            x = xorg - math.sin(angle * math.pi/180) * ligne
+            y = yorg - math.cos(angle * math.pi/180) * ligne
 
             # Ajout de la ligne allant de la dernière postion vers la nouvelle position au svg
             dwg.add(dwg.line((math.fabs(xorg), math.fabs(yorg)), (math.fabs(x), math.fabs(y)), stroke=svgwrite.rgb(10, 10, 16, '%')))
