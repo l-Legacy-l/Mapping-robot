@@ -3,6 +3,7 @@
 # Import des librairies
 import piconzero as pz
 import time
+import os
 from Bluetin_Echo import Echo
 from threading import Thread
 
@@ -255,3 +256,4 @@ try:
 
 finally :
 	pz.stop()
+        os.system("svgGenerator.py " + sys.argv[1] + " " + sys.argv[2])
