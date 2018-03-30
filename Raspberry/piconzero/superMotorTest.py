@@ -12,8 +12,8 @@ import sys
 import tty
 import termios
 from threading import Thread  
-  
-  
+
+
 class compteur(Thread):  
     def __init__(self):  
         Thread.__init__(self)  
@@ -38,7 +38,7 @@ class compteur(Thread):
         self.value = 0 
     def get(self): 
         return self.value 
-  
+
 c = compteur()  
 f = open("output", "w")
 

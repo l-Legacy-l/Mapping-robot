@@ -28,7 +28,7 @@ class compteur(Thread):
     def zero(self): 
         self.value = 0 
     def get(self): 
-        return self.value 
+        return str(self.value)
   
 c = compteur()  
 
@@ -37,6 +37,7 @@ f = open("output", "w")
 prev = 0 # 0 pour tout droit, 1 pour rotation a droite et 2 pour rotation a gauche
 # code a ajouter avant chaque rotation a gauche
 def gauche():
+    global prev
     if(prev == 0):
         f.write("L " + c.get() + "\n")
     elif(prev == 1):
@@ -44,6 +45,7 @@ def gauche():
     prev = 2
 # code a ajouter avant chaque rotation a droite
 def droite():
+    global prev
     if(prev == 0):
         f.write("L " + c.get() + "\n")
     elif(prev == 2):
@@ -51,6 +53,7 @@ def droite():
     prev = 1
 # code a ajouter avant chaque mise en route (sans compter les ajustement)
 def toutDroit():
+    global prev
     if(prev == 1):
         f.write("D " + c.get() + "\n")
     elif(prev == 2):
