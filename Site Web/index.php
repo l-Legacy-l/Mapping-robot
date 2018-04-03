@@ -11,7 +11,7 @@
             <img src="Images/logo.gif" >
         </div>
 
-        <form action="Connexion.php" method="POST">
+        <form action="Cartographie.php" method="POST">
             <fieldset>
             <legend>Connexion</legend>
             Login : <input  type="text" name="login"><br>

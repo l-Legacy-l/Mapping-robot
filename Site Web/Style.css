@@ -7,7 +7,7 @@ body
 @font-face
 {
     font-family: "BrainFish";
-    src: url('Police/Brainfish_PersonalUseOnly.ttf');
+    src: url('Police/Brainfish_PersonalUseOnly');
 }
 
 h1
@@ -54,16 +54,5 @@ fieldset
 #input_password
 {
     margin-right: 63px;
-}
-
-#div_script
-{
-	text-align:center;
-	font-size:50px;
-       	border: 5px solid black;
-	margin-left:35%;
-	margin-right:35%;
-	background-color: white;
-	border-radius:500px;
 }
 
