@@ -7,7 +7,7 @@ body
 @font-face
 {
     font-family: "BrainFish";
-    src: url('Police/Brainfish_PersonalUseOnly');
+    src: url('Police/Brainfish_PersonalUseOnly.ttf');
 }
 
 h1
@@ -20,6 +20,26 @@ h1
     text-align: center;
     margin-bottom: 100px;
 }
+p
+{
+	text-align: center;
+	font-size:30px;
+}
+#svg
+{
+	text-align:center;
+	width:300px;
+	height:100px;
+	margin:0 auto;
+}
+#svg img
+{
+	width:3 em;
+	height:3 em;
+	margin-left:130px;
+}
+
+
 form
 {
     width: 50%;
@@ -56,3 +76,23 @@ fieldset
     margin-right: 63px;
 }
 
+#div_script
+{
+	text-align:center;
+	font-size:50px;
+       	border: 5px solid black;
+	margin-left:35%;
+	margin-right:35%;
+	background-color: white;
+	border-radius:500px;
+}
+#submit
+{
+	p
+	q
+	margin-bottom:px;
+}
+#submit1
+{	
+	margin-bottom:10px;
+}
