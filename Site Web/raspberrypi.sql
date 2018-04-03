@@ -2,8 +2,8 @@
 -- version 4.7.4
 -- https://www.phpmyadmin.net/
 --
--- Hôte : 127.0.0.1:3306
--- Généré le :  mar. 27 mars 2018 à 12:59
+-- HÃ´te : 127.0.0.1:3306
+-- GÃ©nÃ©rÃ© le :  jeu. 29 mars 2018 Ã  15:16
 -- Version du serveur :  5.7.19
 -- Version de PHP :  5.6.31
 
@@ -19,10 +19,24 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Base de données :  `raspberrypi`
---
+-- Base de donnÃ©es :  `raspberrypi`
 CREATE DATABASE IF NOT EXISTS `raspberrypi` DEFAULT CHARACTER SET latin1 COLLATE latin1_swedish_ci;
 USE `raspberrypi`;
+--
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `data`
+--
+
+DROP TABLE IF EXISTS `data`;
+CREATE TABLE IF NOT EXISTS `data` (
+  `login` varchar(255) NOT NULL,
+  `piece` varchar(255) NOT NULL,
+  `image` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
 -- --------------------------------------------------------
 
 --
@@ -31,16 +45,20 @@ USE `raspberrypi`;
 
 DROP TABLE IF EXISTS `users`;
 CREATE TABLE IF NOT EXISTS `users` (
-  `Login` varchar(255) DEFAULT NULL,
-  `Password` varchar(255) DEFAULT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+  `login` varchar(255) DEFAULT NULL,
+  `password` varchar(255) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Déchargement des données de la table `users`
+-- DÃ©chargement des donnÃ©es de la table `users`
 --
 
 INSERT INTO `users` (`Login`, `Password`) VALUES
-('admin', '96fd0508f32de904e0cd8e9e4c6a62a4a3b41052');
+('admin', '96fd0508f32de904e0cd8e9e4c6a62a4a3b41052'),
+('fabio', '96fd0508f32de904e0cd8e9e4c6a62a4a3b41052'),
+('timothee', '96fd0508f32de904e0cd8e9e4c6a62a4a3b41052'),
+('sam', '96fd0508f32de904e0cd8e9e4c6a62a4a3b41052'),
+('jerome', '96fd0508f32de904e0cd8e9e4c6a62a4a3b41052');
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
