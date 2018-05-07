@@ -11,15 +11,14 @@
             <img src="Images/logo.gif" >
         </div>
 
-        <form action="Cartographie.php" method="POST">
+        <form action="Connexion.php" method="POST">
             <fieldset>
             <legend>Connexion</legend>
-            Login : <input  type="text" name="login"><br>
-            Mot de passe : <input id="input_password" type="password" name="password"><br>
-            <input id="button" type="submit" value="OK">
+            Login : <input  type="text" name="login" required ><br>
+            Mot de passe : <input id="input_password" type="password" name="password" required ><br>
+            <input id="button" type="submit" value="OK"  >
             </fieldset>
         </form>
 
-    
     </body>
 </html>
