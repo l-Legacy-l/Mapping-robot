@@ -5,12 +5,11 @@
         <link rel="stylesheet" href="Style.css"/>
     </head>
     <body>
-        <script src="Scripts.js"></script>
         <h1>Connexion au Raspberry Pi</h1>
         <div id="img">
             <img src="Images/logo.gif" >
         </div>
-
+        <!--Formulaire de connexion à l'interface du lancement du script-->
         <form action="Connexion.php" method="POST">
             <fieldset>
             <legend>Connexion</legend>
