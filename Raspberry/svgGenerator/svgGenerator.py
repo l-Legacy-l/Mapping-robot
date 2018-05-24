@@ -20,7 +20,7 @@ yorg = 0
 perim = 0
 
 # Ouverture d'un fichier d'input
-with open("output", "r") as f :
+with open("output_Perfect", "r") as f :
     # Pour chaque ligne
     for line in f :
         # Si la ligne contient un angle
